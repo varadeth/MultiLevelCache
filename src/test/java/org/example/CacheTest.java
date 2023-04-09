@@ -21,6 +21,15 @@ class CacheTest {
         priorityQueue2.add("key2");
         PriorityQueue<String> priorityQueue3 = new PriorityQueue<>();
         priorityQueue3.add("key3");
+        priorityQueue3.add("key4");
+        priorityQueue3.add("key5");
+        priorityQueue3.add("key6");
+        priorityQueue3.add("key7");
+        priorityQueue3.add("key8");
+        priorityQueue3.add("key9");
+        priorityQueue3.add("key10");
+        priorityQueue3.add("key11");
+        priorityQueue3.add("key12");
         cacheLvl3 = new Cache(priorityQueue3, 10, null, 2, 5);
         cacheLvl2 = new Cache(priorityQueue2, 10, cacheLvl3, 1, 2);
         cache = new Cache(priorityQueue1, 10, cacheLvl2, 1, 1);
@@ -45,6 +54,24 @@ class CacheTest {
     }
 
     @Test
+    void shouldReturnTimeTakenToRetrieveValueFromL3Cache() {
+        final Integer expectedReadTime = 7;
+
+        final Integer actualReadTime = cache.readKey("key3");
+
+        assertEquals(expectedReadTime, actualReadTime);
+    }
+
+    @Test
+    void shouldReturnTimeTakenToReadValueThatIsNotPresentInAnyCache() {
+        final Integer expectedReadTime = 12;
+
+        final Integer actualReadTime = cache.readKey("key13");
+
+        assertEquals(expectedReadTime, actualReadTime);
+    }
+
+    @Test
     void shouldReturnTimeTakenToWriteValueToL1Cache() {
         final Integer expectedWriteTime = 7;
 
@@ -60,14 +87,5 @@ class CacheTest {
         final Integer actualWriteTime = cache.writeKey("key2");
 
         assertEquals(expectedWriteTime, actualWriteTime);
-    }
-
-    @Test
-    void shouldReturnTimeTakenToReadValueThatIsNotPresentInAnyCache() {
-        final Integer expectedReadTime = 12;
-
-        final Integer actualReadTime = cache.readKey("key4");
-
-        assertEquals(expectedReadTime, actualReadTime);
     }
 }
