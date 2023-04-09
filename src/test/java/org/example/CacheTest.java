@@ -90,4 +90,28 @@ class CacheTest {
 
         assertEquals(expectedWriteTime, actualWriteTime);
     }
+
+    @Test
+    void shouldReplaceLeastRecentlyUsedInCacheIfCapacityIsFull() throws InterruptedException {
+        final Integer expectedSize = 10;
+
+        PriorityQueue<Item> priorityQueue3 = new PriorityQueue<>();
+        Item item1 = new Item("key3", new Date().getTime());
+        priorityQueue3.add(item1);
+        Thread.sleep(1000);
+        priorityQueue3.add(new Item("key4", new Date().getTime()));
+        priorityQueue3.add(new Item("key5", new Date().getTime()));
+        priorityQueue3.add(new Item("key6", new Date().getTime()));
+        priorityQueue3.add(new Item("key7", new Date().getTime()));
+        priorityQueue3.add(new Item("key8", new Date().getTime()));
+        priorityQueue3.add(new Item("key9", new Date().getTime()));
+        priorityQueue3.add(new Item("key10", new Date().getTime()));
+        priorityQueue3.add(new Item("key11", new Date().getTime()));
+        priorityQueue3.add(new Item("key12", new Date().getTime()));
+        cacheLvl3 = new Cache(priorityQueue3, 10, null, 2, 5);
+        cacheLvl3.readKey("key13");
+
+        assertEquals(expectedSize, priorityQueue3.size());
+        assertFalse(priorityQueue3.contains(item1));
+    }
 }

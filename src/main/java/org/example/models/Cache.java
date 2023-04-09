@@ -29,6 +29,8 @@ public class Cache {
     }
 
     private Integer writeToCurrentCache(String key) {
+        if(this.keys.size() >= this.capacity)
+            removeLeastRecentlyUsedItem();
         this.keys.add(new Item(key, new Date().getTime()));
         return this.writeTime;
     }
@@ -42,5 +44,9 @@ public class Cache {
             return this.readTime;
         }
         return this.readTime + writeToCurrentCache(key) + (cache != null ? cache.writeKey(key) : 0);
+
+    }
+    private void removeLeastRecentlyUsedItem() {
+        this.keys.remove();
     }
 }

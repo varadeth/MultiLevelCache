@@ -1,8 +1,8 @@
 package org.example.models;
 
 public class Item implements Comparable<Item>{
-    public final String key;
-    public Long accessedTime;
+    private final String key;
+    private final Long accessedTime;
 
     public Item(String key, long accessedTime) {
         this.key = key;
