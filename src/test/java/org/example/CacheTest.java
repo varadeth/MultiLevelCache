@@ -1,9 +1,11 @@
 package org.example;
 
 import org.example.models.Cache;
+import org.example.models.Item;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Date;
 import java.util.PriorityQueue;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,12 +17,12 @@ class CacheTest {
 
     @BeforeEach
     void setUp() {
-        PriorityQueue<String> priorityQueue1 = new PriorityQueue<>();
-        priorityQueue1.add("key1");
-        PriorityQueue<String> priorityQueue2 = new PriorityQueue<>();
-        priorityQueue2.add("key2");
-        PriorityQueue<String> priorityQueue3 = new PriorityQueue<>();
-        priorityQueue3.add("key3");
+        PriorityQueue<Item> priorityQueue1 = new PriorityQueue<>();
+        priorityQueue1.add(new Item("key1", new Date().getTime()));
+        PriorityQueue<Item> priorityQueue2 = new PriorityQueue<>();
+        priorityQueue2.add(new Item("key2", new Date().getTime()));
+        PriorityQueue<Item> priorityQueue3 = new PriorityQueue<>();
+        priorityQueue3.add(new Item("key3", new Date().getTime()));
         cacheLvl3 = new Cache(priorityQueue3, 10, null, 2, 5);
         cacheLvl2 = new Cache(priorityQueue2, 10, cacheLvl3, 1, 2);
         cache = new Cache(priorityQueue1, 10, cacheLvl2, 1, 1);

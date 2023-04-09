@@ -1,15 +1,16 @@
 package org.example.models;
 
+import java.util.Date;
 import java.util.PriorityQueue;
 
 public class Cache {
-    private final PriorityQueue<String> keys;
+    private final PriorityQueue<Item> keys;
     private final Integer capacity;
     private final Cache cache;
     private final Integer readTime;
     private final Integer writeTime;
 
-    public Cache(PriorityQueue<String> keys, Integer capacity, Cache cache, Integer readTime, Integer writeTime) {
+    public Cache(PriorityQueue<Item> keys, Integer capacity, Cache cache, Integer readTime, Integer writeTime) {
         this.keys = keys;
         this.capacity = capacity;
         this.cache = cache;
@@ -28,12 +29,12 @@ public class Cache {
     }
 
     private Integer writeToCurrentCache(String key) {
-        this.keys.add(key);
+        this.keys.add(new Item(key, new Date().getTime()));
         return this.writeTime;
     }
 
     private boolean isPresent(String key) {
-        return keys.contains(key);
+        return keys.stream().anyMatch(item -> item.isKey(key));
     }
 
     public Integer writeKey(String key) {
